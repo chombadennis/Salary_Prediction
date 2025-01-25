@@ -10,5 +10,8 @@
 Create a new environment
 
 ```
-conda create -p venv python==3.13 -7
+conda create -p venv python==3.13 -y
+```
+```
+conda activate venv/
 ```
