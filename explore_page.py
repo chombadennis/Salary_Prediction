@@ -34,8 +34,16 @@ def clean_education(x):
         return "Post grad"
     return "Less than a Bachelor’s degree"
 
+def clean_country_names(df):
+    # Replacing the long country names with shorter ones
+    df['Country'] = df['Country'].replace({
+        'United States': 'USA', 
+        'United Kingdom': 'UK'
+    })
+    return df
 
-@st.cache
+
+st.cache_data
 def load_data():
     directory = r"D:\Stack Overflow Project\stack-overflow-developer-survey-2024"
     df = pd.read_csv(directory + r"\survey_results_public.csv")
@@ -86,7 +94,7 @@ def show_explore_page():
     ax.pie(data, labels=data.index, autopct="%1.1f%%", shadow = True, startangle=90)
     ax.axis("equal")
 
-    st.write("""#### Number of Data from Different Countries""", key = "5")
+    st.write("""#### Number of Data from Different Countries""")
 
     st.pyplot(fig) 
 
@@ -94,7 +102,6 @@ def show_explore_page():
         """
         #### Mean Salary Based on Country
         """
-        , key = "6"
         )
     data = df.groupby("Country")["Salary"].mean().sort_values(ascending=True)
     st.bar_chart(data)
@@ -103,7 +110,6 @@ def show_explore_page():
         """
         #### Mean Salary Based on the Years of Professional Experience
         """
-        , key = "7"
         )
     data = df.groupby("YearsCodePro")["Salary"].mean().sort_values(ascending=True)
     st.line_chart(data)
