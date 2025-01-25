@@ -1,6 +1,6 @@
 ### Salary Prediction
 
-### Software ad Tools Requirements
+### Software and Tools Requirements
 1. [Github Account](https://github.com)
 2. [VSCodeIDE](https://code.visualstudio.com)
 3. [Streamlit](https://streamlit.io)
