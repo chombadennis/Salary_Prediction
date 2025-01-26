@@ -4,7 +4,7 @@ from explore_page import show_explore_page
 
 
 
-page = st.sidebar.selectbox("Select a page", ("Explore", "Predict"), key = '1')
+page = st.sidebar.selectbox("Select a page", ("Explore", "Predict"))
 
 if page == "Predict":
     show_predict_page()
