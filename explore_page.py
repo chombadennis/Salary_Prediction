@@ -42,16 +42,14 @@ def clean_country_names(df):
     })
     return df
 
-
-st.cache_data
-def load_data():
-    directory = r"D:\Stack Overflow Project\stack-overflow-developer-survey-2024"
-    df = pd.read_csv(directory + r"\survey_results_public.csv")
+@st.cache_data
+def load_data(file):
+    df = pd.read_csv(file)
     df = df[["Country", "EdLevel", "YearsCodePro", "Employment", "ConvertedCompYearly"]]
     
     df = df[df["ConvertedCompYearly"].notnull()]
     df = df.dropna()
-    # Keeping datapoit where user is emloyed full-time:
+    # Keeping datapoints where user is employed full-time:
     df = df[df["Employment"] == "Employed, full-time"]
     df = df.drop("Employment", axis=1)
 
@@ -72,13 +70,10 @@ def load_data():
     # Filter the DataFrame to keep only rows where the salary is between 10,000 and 250,000
     df = df[(df['ConvertedCompYearly'] >= 10000) & (df['ConvertedCompYearly'] <= 250000)]
     
-    df["YearsCodePro"] = df["YearsCodePro"].apply(clean_experience) #Applying the function above
+    df["YearsCodePro"] = df["YearsCodePro"].apply(clean_experience) # Applying the function above
     df["EdLevel"] = df["EdLevel"].apply(clean_education) # Applying the function above
     df = df.rename({"ConvertedCompYearly": "Salary"}, axis=1)
     return df
-    
-
-df = load_data()  
 
 def show_explore_page():
     st.title("Explore Software Developer Salaries")
@@ -89,28 +84,33 @@ def show_explore_page():
     """         
     )
 
-    data = df["Country"].value_counts()
-    fig, ax = plt.subplots()
-    ax.pie(data, labels=data.index, autopct="%1.1f%%", shadow = True, startangle=90)
-    ax.axis("equal")
+    file = st.file_uploader("Choose a CSV file", type="csv", key='100k')
 
-    st.write("""#### Number of Data from Different Countries""")
+    if file is not None:
+        if st.button('Load Data'):
+            df = load_data(file)
 
-    st.pyplot(fig) 
+            st.write("""#### Number of Data from Different Countries""")
+            data = df["Country"].value_counts()
+            fig, ax = plt.subplots()
+            ax.pie(data, labels=data.index, autopct="%1.1f%%", shadow=True, startangle=90)
+            ax.axis("equal")
+            st.pyplot(fig) 
 
-    st.write(
-        """
-        #### Mean Salary Based on Country
-        """
-        )
-    data = df.groupby("Country")["Salary"].mean().sort_values(ascending=True)
-    st.bar_chart(data)
+            st.write(
+                """
+                #### Mean Salary Based on Country
+                """
+            )
+            data = df.groupby("Country")["Salary"].mean().sort_values(ascending=True)
+            st.bar_chart(data)
 
-    st.write(
-        """
-        #### Mean Salary Based on the Years of Professional Experience
-        """
-        )
-    data = df.groupby("YearsCodePro")["Salary"].mean().sort_values(ascending=True)
-    st.line_chart(data)
-    
+            st.write(
+                """
+                #### Mean Salary Based on the Years of Professional Experience
+                """
+            )
+            data = df.groupby("YearsCodePro")["Salary"].mean().sort_values(ascending=True)
+            st.line_chart(data)
+
+# Ensure that the show_explore_page function is called correctly in your app.py

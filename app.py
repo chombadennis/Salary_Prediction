@@ -11,4 +11,3 @@ if page == "Predict":
 else:
     show_explore_page()
     
-show_predict_page()

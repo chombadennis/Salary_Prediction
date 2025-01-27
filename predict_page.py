@@ -43,11 +43,10 @@ def predict_salary(new_data):
     return knn_model.predict(s_encoded)[0]
 
 
-
 def show_predict_page():
     st.title("Software Developer Salary Prediction")
 
-    st.write("""### We need some information to predict the salary of a software developer""", key = '0')
+    st.write("""### Input data for prediction:""", key = '0')
 
     # Get the input from the user
     Countries = (
@@ -80,8 +79,6 @@ def show_predict_page():
         prediction = predict_salary(new_data)
         st.write(f"The estimated salary is ${prediction:,.2f}")
 
-
-show_predict_page()
 
 
 
