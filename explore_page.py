@@ -87,7 +87,7 @@ def show_explore_page():
     file = st.file_uploader("Choose a CSV file", type="csv", key='100k')
 
     if file is not None:
-        if st.button('Load Data'):
+        if st.button('Explore'):
             df = load_data(file)
 
             st.write("""#### Number of Data from Different Countries""")
